@@ -6,6 +6,9 @@ class Authen extends StatefulWidget {
 }
 
 class _AuthenState extends State<Authen> {
+  // Explicit
+  String titleUser = 'ลงชื่อผู้ใช้งาน:';
+  String hintUser = 'กรุณาชื่อผู้ใช้งาน';
   // Show Logo
   Widget showLogo() {
     return Image.asset('images/logo.png');
@@ -22,6 +25,41 @@ class _AuthenState extends State<Authen> {
     );
   }
 
+  // user
+  Widget userTextFromField() {
+    return TextFormField(
+      decoration: InputDecoration(
+          labelText: titleUser,
+          hintText: hintUser,
+          labelStyle: TextStyle(fontSize: 24.0, color: Colors.lightBlue)),
+    );
+  }
+
+  // password
+  Widget passwordTextFormField() {
+    return TextFormField(
+      decoration: InputDecoration(
+          labelText: 'Password:',
+          hintText: 'More than 6 Characters',
+          labelStyle: TextStyle(fontSize: 24.0, color: Colors.lightBlue)),
+    );
+  }
+
+  // SignIn
+  Widget signInButton() {
+    return RaisedButton(
+      child: Text('Sign In'),
+      onPressed: () {},
+    );
+  }
+
+  // SignUp
+  Widget signUpButton() {
+    return RaisedButton(
+      child: Text('Sign Up'),
+      onPressed: (){},
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +73,23 @@ class _AuthenState extends State<Authen> {
           child: Column(
             children: <Widget>[
               showLogo(),
-              Container(margin: EdgeInsets.only(top: 10.0),
+              Container(
+                margin: EdgeInsets.only(top: 10.0),
                 child: showAppName(),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                child: userTextFromField(),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                child: passwordTextFormField(),
+              ),
+              Container(
+                child: Row(
+                  children: <Widget>[signInButton(), signUpButton()],
+                ),
+                margin: EdgeInsets.only(left: 50.0, right: 50.0,top: 20.0),
               )
             ],
           )),
