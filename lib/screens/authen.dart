@@ -48,7 +48,13 @@ class _AuthenState extends State<Authen> {
   // SignIn
   Widget signInButton() {
     return RaisedButton(
-      child: Text('Sign In'),
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0)),
+      color: Colors.black87,
+      child: Text(
+        'Sign In',
+        style: TextStyle(color: Colors.yellow[600]),
+      ),
       onPressed: () {},
     );
   }
@@ -56,13 +62,20 @@ class _AuthenState extends State<Authen> {
   // SignUp
   Widget signUpButton() {
     return RaisedButton(
-      child: Text('Sign Up'),
-      onPressed: (){},
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      color: Colors.black87,
+      child: Text(
+        'Sign Up',
+        style: TextStyle(color: Colors.yellow[600]),
+      ),
+      onPressed: () {},
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -87,9 +100,19 @@ class _AuthenState extends State<Authen> {
               ),
               Container(
                 child: Row(
-                  children: <Widget>[signInButton(), signUpButton()],
+                  children: <Widget>[
+                    new Expanded(
+                      child: signInButton(),
+                    ),
+                    new Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10.0),
+                        child: signUpButton(),
+                      ),
+                    )
+                  ],
                 ),
-                margin: EdgeInsets.only(left: 50.0, right: 50.0,top: 20.0),
+                margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0),
               )
             ],
           )),
