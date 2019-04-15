@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'register.dart';
 
 class Authen extends StatefulWidget {
   @override
@@ -50,7 +51,7 @@ class _AuthenState extends State<Authen> {
     return RaisedButton(
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(10.0)),
-      color: Colors.black87,
+      color: Colors.black,
       child: Text(
         'Sign In',
         style: TextStyle(color: Colors.yellow[600]),
@@ -60,16 +61,25 @@ class _AuthenState extends State<Authen> {
   }
 
   // SignUp
-  Widget signUpButton() {
+  Widget signUpButton(BuildContext context) {
     return RaisedButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      color: Colors.black87,
+      color: Colors.black,
       child: Text(
         'Sign Up',
         style: TextStyle(color: Colors.yellow[600]),
       ),
-      onPressed: () {},
+      onPressed: () {
+        print('click sign up');
+        goToRegister(context);
+      },
     );
+  }
+
+  void goToRegister(BuildContext context) {
+    var routeRegister =
+        new MaterialPageRoute(builder: (BuildContext context) => Register());
+    Navigator.of(context).push(routeRegister);
   }
 
   @override
@@ -79,7 +89,7 @@ class _AuthenState extends State<Authen> {
       body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Colors.yellow[800], Colors.yellow[100]],
+                  colors: [Colors.yellow, Colors.red],
                   begin: Alignment(-1, -1))),
           padding: EdgeInsets.only(top: 30.0),
           alignment: Alignment.topCenter,
@@ -107,7 +117,7 @@ class _AuthenState extends State<Authen> {
                     new Expanded(
                       child: Container(
                         margin: EdgeInsets.only(left: 10.0),
-                        child: signUpButton(),
+                        child: signUpButton(context),
                       ),
                     )
                   ],
