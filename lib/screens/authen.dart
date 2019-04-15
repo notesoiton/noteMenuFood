@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'register.dart';
+import 'package:http/http.dart' show get;
+import 'dart:convert';
 
 class Authen extends StatefulWidget {
   @override
@@ -63,15 +65,25 @@ class _AuthenState extends State<Authen> {
       },
     );
   }
-void checkAuthen(){
 
- if (formKey.currentState.validate()){
-   formKey.currentState.save();
+  void checkAuthen() async {
+    if (formKey.currentState.validate()) {
+      formKey.currentState.save();
 
-   String urlJSON ='http://www.androidthai.in.th/note/getUserWhereUserNote.php?isAdd=true&User=$user';
-   print('user ==> $user, password ==> $password'); 
- }
-}
+      String urlJSON =
+          'http://www.androidthai.in.th/note/getUserWhereUserNote.php?isAdd=true&User=$user';
+      print('user ==> $user, password ==> $password');
+      var response = await get(urlJSON);
+      var result = json.decode(response.body);
+
+      if (result.toString() == 'null') {
+        print('Incorrect User');
+      } else {
+        print(result.toString());
+      }
+    } // if
+  } //check Authen
+
   // SignIn
   Widget signInButton() {
     return RaisedButton(
