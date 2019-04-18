@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'register.dart';
 import 'package:http/http.dart' show get;
 import 'dart:convert';
+import '../models/user_model.dart';
+import 'menuHorizontalScroll.dart';
 
 class Authen extends StatefulWidget {
   @override
@@ -10,13 +12,14 @@ class Authen extends StatefulWidget {
 
 class _AuthenState extends State<Authen> {
   // Explicit
-  String titleUser = 'ลงชื่อผู้ใช้งาน:';
-  String hintUser = 'กรุณาชื่อผู้ใช้งาน';
+  String titleUser = 'ลงชื่อผู้ใช้งาน :';
+  String hintUser = 'กรุณากรอก ชื่อผู้ใช้งาน';
   String user, password;
   final formKey = GlobalKey<FormState>();
+
   // Show Logo
   Widget showLogo() {
-    return Image.asset('images/logo.png');
+    return Image.asset('images/logo.png',height: 100.0,width: 100.0,);
   }
 
   // App Name
@@ -24,19 +27,17 @@ class _AuthenState extends State<Authen> {
     return Text(
       'นวพร ค้าข้าว',
       style: TextStyle(
-          fontSize: 40.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.orangeAccent[700]),
+          fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.white),
     );
   }
 
-  // user
-  Widget userTextFromField() {
+  // User
+  Widget userTextFormField() {
     return TextFormField(
       decoration: InputDecoration(
           labelText: titleUser,
           hintText: hintUser,
-          labelStyle: TextStyle(fontSize: 24.0, color: Colors.lightBlue)),
+          labelStyle: TextStyle(fontSize: 25.0, color: Colors.white)),
       validator: (String value) {
         if (value.length == 0) {
           return 'Have Space';
@@ -48,20 +49,37 @@ class _AuthenState extends State<Authen> {
     );
   }
 
-  // password
+  // Password
   Widget passwordTextFormField() {
     return TextFormField(
       decoration: InputDecoration(
-          labelText: 'Password:',
-          hintText: 'More than 6 Characters',
-          labelStyle: TextStyle(fontSize: 24.0, color: Colors.lightBlue)),
+          labelText: 'Password :',
+          hintText: 'More 6 Charactor',
+          labelStyle: TextStyle(fontSize: 25.0, color: Colors.white)),
       validator: (String value) {
         if (value.length == 0) {
-          return 'Please Enter Correct Password';
+          return 'Have Space';
         }
       },
       onSaved: (String value) {
         password = value;
+      },
+    );
+  }
+
+  // SignIn
+  Widget signInButton() {
+    return RaisedButton(
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(30.0)),
+      color: Colors.green[700],
+      child: Text(
+        'Sign In',
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () {
+        print('You Click SignIn');
+        checkAuthen();
       },
     );
   }
@@ -71,52 +89,52 @@ class _AuthenState extends State<Authen> {
       formKey.currentState.save();
 
       String urlJSON =
-          'http://www.androidthai.in.th/note/getUserWhereUserNote.php?isAdd=true&User=$user';
-      print('user ==> $user, password ==> $password');
+          'https://www.androidthai.in.th/note/getUserWhereUserNote.php?isAdd=true&User=$user';
+
       var response = await get(urlJSON);
       var result = json.decode(response.body);
 
       if (result.toString() == 'null') {
-        print('Incorrect User');
+        print('User False');
       } else {
         print(result.toString());
+
+        for (var objJson in result) {
+          var userModel = UserModel.formJSON(objJson);
+
+          if (password == userModel.password.toString()) {
+            print('Password True');
+            goToMenu(context);
+
+          } else {
+            print('Password False');
+           
+          }
+        }
       }
     } // if
-  } //check Authen
+  } // checkAuthe
 
-  // SignIn
-  Widget signInButton() {
-    return RaisedButton(
-      shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(10.0)),
-      color: Colors.black,
-      child: Text(
-        'Sign In',
-        style: TextStyle(color: Colors.yellow[600]),
-      ),
-      onPressed: () {
-        print('You click SignIn');
-        checkAuthen();
-      },
-    );
-  }
-
-  // SignUp
+  //  SignUp
   Widget signUpButton(BuildContext context) {
     return RaisedButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      color: Colors.black,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      color: Colors.green[100],
       child: Text(
         'Sign Up',
-        style: TextStyle(color: Colors.yellow[600]),
+        style: TextStyle(color: Colors.teal[900]),
       ),
       onPressed: () {
-        print('click sign up');
+        print('You Click SignUp');
         goToRegister(context);
       },
     );
   }
 
+  void goToMenu(BuildContext context){
+    var routeMenu = new MaterialPageRoute(builder: (BuildContext context) => ShowMenu());
+    Navigator.of(context).push(routeMenu);
+  }
   void goToRegister(BuildContext context) {
     var routeRegister =
         new MaterialPageRoute(builder: (BuildContext context) => Register());
@@ -130,45 +148,47 @@ class _AuthenState extends State<Authen> {
         body: Form(
           key: formKey,
           child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.yellow, Colors.red],
-                      begin: Alignment(-1, -1))),
-              padding: EdgeInsets.only(top: 30.0),
-              alignment: Alignment.topCenter,
-              child: Column(
-                children: <Widget>[
-                  showLogo(),
-                  Container(
-                    margin: EdgeInsets.only(top: 10.0),
-                    child: showAppName(),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 50.0, right: 50.0),
-                    child: userTextFromField(),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 50.0, right: 50.0),
-                    child: passwordTextFormField(),
-                  ),
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        new Expanded(
-                          child: signInButton(),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              Colors.black,
+              Colors.black87
+            ], begin: Alignment(-1, -1))),
+            padding: EdgeInsets.only(top: 100.0),
+            alignment: Alignment.topCenter,
+            child: Column(
+              children: <Widget>[
+                showLogo(),
+                Container(
+                  margin: EdgeInsets.only(top: 30.0),
+                  child: showAppName(),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                  child: userTextFormField(),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 50.0, right: 50.0),
+                  child: passwordTextFormField(),
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: signInButton(),
+                      ),
+                      new Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 5.0),
+                          child: signUpButton(context),
                         ),
-                        new Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10.0),
-                            child: signUpButton(context),
-                          ),
-                        )
-                      ],
-                    ),
-                    margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0),
-                  )
-                ],
-              )),
+                      )
+                    ],
+                  ),
+                  margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 15.0),
+                )
+              ],
+            ),
+          ),
         ));
   }
 }
