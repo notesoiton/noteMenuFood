@@ -19,7 +19,11 @@ class _AuthenState extends State<Authen> {
 
   // Show Logo
   Widget showLogo() {
-    return Image.asset('images/logo.png',height: 100.0,width: 100.0,);
+    return Image.asset(
+      'images/logo.png',
+      height: 100.0,
+      width: 100.0,
+    );
   }
 
   // App Name
@@ -105,10 +109,8 @@ class _AuthenState extends State<Authen> {
           if (password == userModel.password.toString()) {
             print('Password True');
             goToMenu(context);
-
           } else {
             print('Password False');
-           
           }
         }
       }
@@ -131,10 +133,12 @@ class _AuthenState extends State<Authen> {
     );
   }
 
-  void goToMenu(BuildContext context){
-    var routeMenu = new MaterialPageRoute(builder: (BuildContext context) => ShowMenu());
+  void goToMenu(BuildContext context) {
+    var routeMenu =
+        new MaterialPageRoute(builder: (BuildContext context) => ShowMenu());
     Navigator.of(context).push(routeMenu);
   }
+
   void goToRegister(BuildContext context) {
     var routeRegister =
         new MaterialPageRoute(builder: (BuildContext context) => Register());
@@ -150,9 +154,17 @@ class _AuthenState extends State<Authen> {
           child: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
-              Colors.black,
-              Colors.black87
-            ], begin: Alignment(-1, -1))),
+              Colors.yellow[900],
+              Colors.yellow[900],
+              Colors.yellow[600],
+              Colors.yellow[600],
+              Colors.yellow[400],
+              Colors.yellow[400],
+              Colors.yellow[300],
+              Colors.yellow[300],
+              Colors.yellow[200],
+              Colors.yellow[200]
+            ], begin: Alignment(1, -1))),
             padding: EdgeInsets.only(top: 100.0),
             alignment: Alignment.topCenter,
             child: Column(
