@@ -21,13 +21,13 @@ class _AuthenState extends State<Authen> {
   Widget showLogo() {
     return Image.asset(
       'images/logo.png',
-      height: 100.0,
-      width: 100.0,
+      height: 128.0,
+      width:240.0,
     );
   }
 
   // App Name
-  Widget showAppName() {
+  Widget showAppName() { 
     return Text(
       'นวพร ค้าข้าว',
       style: TextStyle(
